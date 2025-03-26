@@ -1,29 +1,21 @@
-
 pipeline {
-    agent any
-
-    tools {
-        maven 'maven'
-    }
+    agent { label 'python' }
 
     stages {
-        stage('Checkout') {
+        stage('Start') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/santhosh8328/Train-Ticket-Reservation-System.git'
+                echo "Starting pipeline for branch: ${env.BRANCH_NAME}"
             }
         }
-
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                echo "Building on ${env.BRANCH_NAME}"
             }
         }
-
-        stage('Confirmation') {
-            steps {
-                echo 'Build completed successfully!'
-            }
+    }
+    post {
+        always {
+            echo "Finished pipeline for ${env.BRANCH_NAME}"
         }
     }
 }
